@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./Volunteer_Hour_Tool.css">
+  <!--  放入這三行開始 -->
+<link rel="icon" type="image/png" href="./App-icon.png">
+<link rel="android-touch-icon" href="./App-icon.png">
+<link rel="android-touch-icon" sizes="180x180" href="./App-icon.png">
+<!--  放入這三行結束 -->
+  <title>志工時數小幫手</title>
+</head>
+<body>
+  <header class="page-header">
+    <div class="page-header-inner">
+      <h1>志工時數小幫手</h1>
+      <p>協會志工服務資料登錄、檢查，並可複製貼到官方匯入系統的小工具</p>
+  </header>
+
+  <main class="container">
+    <!-- 登入區塊 -->
+    <section id="loginSection" class="card">
+      <h2>登入志工時數小幫手</h2>
+      <p class="section-desc">請輸入管理密碼，才能進入系統。</p>
+
+      <form id="loginForm" class="form-grid">
+        <div class="field-group full-width">
+          <label for="loginPassword">登入密碼</label>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="請輸入登入密碼"
+          />
+          <p id="loginError" class="error-message"></p>
+        </div>
+        <div class="field-group full-width">
+          <button type="submit" class="btn primary">登入</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 系統主畫面（登入後顯示） -->
+    <div id="appSection" class="hidden">
+      <!-- 志工名單設定 -->
+      <section class="card">
+        <h2>志工名單設定</h2>
+        <p class="section-desc">先建立志工的姓名與身分證字號，之後登錄服務時就可以直接選擇。</p>
+
+        <form id="volunteer-form" class="form-grid">
+          <div class="field-group">
+            <label for="volunteerName">姓名</label>
+            <input type="text" id="volunteerName" placeholder="請輸入志工姓名" />
+          </div>
+          <div class="field-group">
+            <label for="volunteerId">身分證字號</label>
+            <input type="text" id="volunteerId" placeholder="請輸入志工身分證字號" />
+            <p id="volunteerIdError" class="error-message"></p>
+          </div>
+          <div class="field-group full-width">
+            <button type="submit" class="btn primary" id="volunteerSubmitBtn">
+              新增志工
+            </button>
+          </div>
+        </form>
+
+        <div class="volunteer-list">
+          <h3>已建立志工</h3>
+          <ul id="volunteerList"></ul>
+        </div>
+      </section>
+
+      <!-- 新增服務紀錄 -->
+      <section class="card">
+        <h2>新增服務紀錄</h2>
+        <p class="section-desc">選擇志工、服務日期與項目，小工具會幫你檢查資料並自動計算受服務人次。</p>
+
+        <form id="record-form" class="form-grid">
+          <div class="field-group">
+            <label for="recordVolunteerName">志工姓名</label>
+            <select id="recordVolunteerName">
+              <option value="">請選擇志工</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="recordVolunteerId">身分證字號</label>
+            <input
+              type="text"
+              id="recordVolunteerId"
+              readonly
+              placeholder="選擇志工後自動帶入"
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="startDate">服務日期起</label>
+            <input type="date" id="startDate" />
+          </div>
+          <div class="field-group">
+            <label for="endDate">服務日期迄</label>
+            <input type="date" id="endDate" />
+          </div>
+
+          <div class="field-group">
+            <label for="serviceItemSelect">服務項目</label>
+            <select id="serviceItemSelect">
+              <option value="">請選擇服務項目</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="serviceContentSelect">服務內容</label>
+            <select id="serviceContentSelect">
+              <option value="">請先選擇服務項目</option>
+            </select>
+          </div>
+
+          <!-- 服務時數與人數 -->
+          <div class="field-group full-width">
+            <label>服務時數與人數</label>
+            <div class="inline-fields">
+              <div class="inline-field-group">
+                <span>小時</span>
+                <input
+                  type="number"
+                  id="hours"
+                  min="0"
+                  step="1"
+                  placeholder="請輸入小時（可填 0）"
+                />
+              </div>
+              <div class="inline-field-group">
+                <span>分鐘</span>
+                <input
+                  type="number"
+                  id="minutes"
+                  min="0"
+                  max="59"
+                  step="1"
+                  placeholder="若沒有可留空"
+                />
+              </div>
+              <div class="inline-field-group">
+                <span>人數</span>
+                <input
+                  type="number"
+                  id="clientCount"
+                  min="0"
+                  step="1"
+                  value="0"
+                  placeholder="請輸入人數"
+                />
+              </div>
+              <div class="inline-field-group wide">
+                <span>受服務人次預覽</span>
+                <input
+                  type="text"
+                  id="peopleCountDisplay"
+                  readonly
+                  placeholder="自動計算"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="trafficFee">交通費</label>
+            <input
+              type="number"
+              id="trafficFee"
+              min="0"
+              step="1"
+              value="0"
+            />
+          </div>
+          <div class="field-group">
+            <label for="mealFee">誤餐費</label>
+            <input
+              type="number"
+              id="mealFee"
+              min="0"
+              step="1"
+              value="0"
+            />
+          </div>
+
+          <div class="field-group full-width">
+            <button type="submit" class="btn primary" id="recordSubmitBtn">
+              新增服務紀錄
+            </button>
+          </div>
+        </form>
+
+        <p id="recordError" class="error-message"></p>
+      </section>
+
+      <!-- 目前服務紀錄 + 複製用表格 -->
+      <section class="card">
+        <div class="records-header">
+          <div>
+            <h2>目前服務紀錄</h2>
+            <p class="section-desc">
+              「好讀模式」方便檢查資料；切換成「匯入模式」後，可直接複製貼到官方 Excel 匯入範本。
+            </p>
+          </div>
+          <div class="records-actions">
+            <button id="copyTableBtn" class="btn primary">複製表格內容</button>
+            <button id="clearRecordsBtn" class="btn secondary">清空紀錄</button>
+          </div>
+        </div>
+
+        <div class="display-mode-toggle">
+          <span>表格顯示模式：</span>
+          <label>
+            <input
+              type="radio"
+              name="displayMode"
+              value="readable"
+              checked
+            />
+            好讀模式
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="displayMode"
+              value="import"
+            />
+            匯入模式（複製貼到官方 Excel）
+          </label>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>身分證字號</th>
+                <th>服務日期起</th>
+                <th>服務日期迄</th>
+                <th>服務項目</th>
+                <th>服務內容</th>
+                <th>服務時數-小時</th>
+                <th>服務時數-分鐘</th>
+                <th>受服務人次</th>
+                <th>交通費</th>
+                <th>誤餐費</th>
+                <th>服務區域</th>
+                <th>備註</th>
+                <th>匯入動作</th>
+                <th>序號</th>
+                <th>國外參與服務人次</th>
+                <th>國內參與服務人次</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="recordsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="./Volunteer_Hour_Tool.js"></script>
+</body>
+</html>
+

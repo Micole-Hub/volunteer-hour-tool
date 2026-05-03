@@ -1,0 +1,408 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f3f4f6;
+  color: #222;
+}
+
+/* 頁首 */
+
+.page-header {
+  background: linear-gradient(135deg, #e5e7eb 0%, #f9fafb 50%, #e5e7eb 100%);
+  color: #111827;
+  padding: 2rem 1rem 2.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.page-header-inner {
+  max-width: 960px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.page-header h1 {
+  margin: 0 0 0.6rem;
+  font-size: 1.9rem;
+  letter-spacing: 0.04em;
+}
+
+.page-header p {
+  margin: 0;
+  font-size: 1rem;
+  max-width: 640px;
+  line-height: 1.6;
+  margin-inline: auto;
+}
+
+/* 頁首顯示的 APP 圖示（可選） */
+.app-hero-icon {
+  margin-top: 1rem;
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+/* 主內容 */
+
+.container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1.25rem 2.5rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 1.3rem 1.9rem;
+  margin-bottom: 1.6rem;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  font-size: 1.25rem;
+}
+
+.section-desc {
+  margin-top: 0;
+  margin-bottom: 0.9rem;
+  font-size: 0.92rem;
+  color: #4b5563;
+}
+
+/* 表單格線 */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 1.25rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.92rem;
+  margin-bottom: 0.25rem;
+  color: #111827;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+select,
+textarea {
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.92rem;
+  width: 100%;
+  margin-top: 0.1rem;
+  background-color: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #fb923c;
+  box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.35);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* 服務時數與人數：平均分佈 */
+
+.inline-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem 1.25rem;
+}
+
+.inline-field-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.inline-field-group span {
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.inline-field-group input {
+  width: 100%;
+}
+
+.inline-field-group.wide {
+  grid-column: 1 / -1;
+}
+
+/* 平板以上：三欄平均分佈 */
+
+@media (min-width: 768px) {
+  .inline-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .inline-field-group.wide {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 按鈕 */
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #111827;
+  transition:
+    transform 0.05s ease,
+    box-shadow 0.1s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.btn.primary {
+  background: #f97316;
+  color: #111827;
+  box-shadow: 0 6px 14px rgba(249, 115, 22, 0.4);
+}
+
+.btn.primary:hover {
+  background: #ea580c;
+}
+
+.btn.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+  opacity: 0.92;
+}
+
+/* 小型按鈕（名單、紀錄的編輯 / 刪除） */
+
+.btn-small {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+/* 志工名單 */
+
+.volunteer-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.7rem 0 0;
+}
+
+.volunteer-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.volunteer-text {
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.volunteer-text small {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.volunteer-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* 紀錄標題區 */
+
+.records-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.records-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* 顯示模式切換 */
+
+.display-mode-toggle {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #374151;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.display-mode-toggle span {
+  font-weight: 500;
+}
+
+.display-mode-toggle label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.display-mode-toggle input[type="radio"] {
+  margin: 0;
+}
+
+/* 表格 */
+
+.table-wrapper {
+  margin-top: 0.9rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1024px;
+}
+
+th,
+td {
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+th {
+  background: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* 錯誤訊息 */
+
+.error-message {
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  color: #b91c1c;
+}
+
+/* 平板 RWD */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    max-width: 960px;
+    padding: 0 2rem 2.5rem;
+  }
+
+  .card {
+    padding: 1.7rem 1.6rem 2rem;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .records-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* 桌機 RWD */
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 1040px;
+    padding: 0 2rem 3rem;
+  }
+
+  .card {
+    padding: 1.9rem 1.9rem 2.2rem;
+  }
+
+  .page-header-inner {
+    max-width: 1040px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .records-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* 登入用：隱藏區塊 */
+
+.hidden {
+  display: none;
+}
