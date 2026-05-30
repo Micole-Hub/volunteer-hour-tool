@@ -4,21 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./Volunteer_Hour_Tool.css">
-  <!--  放入這三行開始 -->
-<link rel="icon" type="image/png" href="./App-icon.png">
-<link rel="android-touch-icon" href="./App-icon.png">
-<link rel="android-touch-icon" sizes="180x180" href="./App-icon.png">
-<!--  放入這三行結束 -->
-  <title>志工時數小幫手</title>
+  <link rel="icon" type="image/png" href="./App-icon.png">
+  <link rel="android-touch-icon" href="./App-icon.png">
+  <link rel="android-touch-icon" sizes="180x180" href="./App-icon.png">
+  <title>大山社區發展協會 — 志工時數小幫手</title>
 </head>
 <body>
+
   <header class="page-header">
     <div class="page-header-inner">
+      <!-- 品牌列：山形 Logo + 協會名稱 -->
+      <div class="page-header-brand">
+        <svg class="brand-logo" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="52" height="52" rx="13" fill="#3B6D11"/>
+          <polygon points="10,40 26,14 42,40" fill="#97C459"/>
+          <polygon points="20,40 31,22 42,40" fill="#EAF3DE" opacity="0.75"/>
+          <line x1="10" y1="40" x2="42" y2="40" stroke="#EAF3DE" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-assoc">大山社區發展協會</span>
+          <span class="brand-sub">志工隊</span>
+        </div>
+      </div>
       <h1>志工時數小幫手</h1>
       <p>協會志工服務資料登錄、檢查，並可複製貼到官方匯入系統的小工具</p>
+    </div>
+    <!-- 波浪分隔線 -->
+    <svg class="page-header-wave" viewBox="0 0 1440 36" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0,36 C240,0 480,30 720,16 C960,2 1200,28 1440,14 L1440,36 Z" fill="#FAF8F4"/>
+    </svg>
   </header>
 
   <main class="container">
+
     <!-- 登入區塊 -->
     <section id="loginSection" class="card">
       <h2>登入志工時數小幫手</h2>
@@ -27,11 +45,34 @@
       <form id="loginForm" class="form-grid">
         <div class="field-group full-width">
           <label for="loginPassword">登入密碼</label>
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="請輸入登入密碼"
-          />
+          <!-- 密碼欄位 + 眼睛切換按鈕 -->
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="請輸入登入密碼"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggleBtn"
+              aria-label="切換顯示密碼"
+              title="顯示／隱藏密碼"
+            >
+              <!-- 睜眼：密碼隱藏中（預設顯示） -->
+              <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <!-- 眼睛劃掉：密碼顯示中 -->
+              <svg class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+                <path d="M17.94 17.94A10.94 10.94 0 0112 20C5 20 1 12 1 12a18.09 18.09 0 015.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
           <p id="loginError" class="error-message"></p>
         </div>
         <div class="field-group full-width">
@@ -42,6 +83,7 @@
 
     <!-- 系統主畫面（登入後顯示） -->
     <div id="appSection" class="hidden">
+
       <!-- 志工名單設定 -->
       <section class="card">
         <h2>志工名單設定</h2>
@@ -58,9 +100,7 @@
             <p id="volunteerIdError" class="error-message"></p>
           </div>
           <div class="field-group full-width">
-            <button type="submit" class="btn primary" id="volunteerSubmitBtn">
-              新增志工
-            </button>
+            <button type="submit" class="btn primary" id="volunteerSubmitBtn">新增志工</button>
           </div>
         </form>
 
@@ -84,12 +124,7 @@
           </div>
           <div class="field-group">
             <label for="recordVolunteerId">身分證字號</label>
-            <input
-              type="text"
-              id="recordVolunteerId"
-              readonly
-              placeholder="選擇志工後自動帶入"
-            />
+            <input type="text" id="recordVolunteerId" readonly placeholder="選擇志工後自動帶入" />
           </div>
 
           <div class="field-group">
@@ -114,86 +149,46 @@
             </select>
           </div>
 
-          <!-- 服務時數與人數 -->
           <div class="field-group full-width">
             <label>服務時數與人數</label>
             <div class="inline-fields">
               <div class="inline-field-group">
                 <span>小時</span>
-                <input
-                  type="number"
-                  id="hours"
-                  min="0"
-                  step="1"
-                  placeholder="請輸入小時（可填 0）"
-                />
+                <input type="number" id="hours" min="0" step="1" placeholder="請輸入小時（可填 0）" />
               </div>
               <div class="inline-field-group">
                 <span>分鐘</span>
-                <input
-                  type="number"
-                  id="minutes"
-                  min="0"
-                  max="59"
-                  step="1"
-                  placeholder="若沒有可留空"
-                />
+                <input type="number" id="minutes" min="0" max="59" step="1" placeholder="若沒有可留空" />
               </div>
               <div class="inline-field-group">
                 <span>人數</span>
-                <input
-                  type="number"
-                  id="clientCount"
-                  min="0"
-                  step="1"
-                  value="0"
-                  placeholder="請輸入人數"
-                />
+                <input type="number" id="clientCount" min="0" step="1" value="0" placeholder="請輸入人數" />
               </div>
               <div class="inline-field-group wide">
                 <span>受服務人次預覽</span>
-                <input
-                  type="text"
-                  id="peopleCountDisplay"
-                  readonly
-                  placeholder="自動計算"
-                />
+                <input type="text" id="peopleCountDisplay" readonly placeholder="自動計算" />
               </div>
             </div>
           </div>
 
           <div class="field-group">
             <label for="trafficFee">交通費</label>
-            <input
-              type="number"
-              id="trafficFee"
-              min="0"
-              step="1"
-              value="0"
-            />
+            <input type="number" id="trafficFee" min="0" step="1" value="0" />
           </div>
           <div class="field-group">
             <label for="mealFee">誤餐費</label>
-            <input
-              type="number"
-              id="mealFee"
-              min="0"
-              step="1"
-              value="0"
-            />
+            <input type="number" id="mealFee" min="0" step="1" value="0" />
           </div>
 
           <div class="field-group full-width">
-            <button type="submit" class="btn primary" id="recordSubmitBtn">
-              新增服務紀錄
-            </button>
+            <button type="submit" class="btn primary" id="recordSubmitBtn">新增服務紀錄</button>
           </div>
         </form>
 
         <p id="recordError" class="error-message"></p>
       </section>
 
-      <!-- 目前服務紀錄 + 複製用表格 -->
+      <!-- 目前服務紀錄 -->
       <section class="card">
         <div class="records-header">
           <div>
@@ -207,24 +202,15 @@
             <button id="clearRecordsBtn" class="btn secondary">清空紀錄</button>
           </div>
         </div>
-        <div id="recordsSummaryBar" class="records-summary-bar"></div> 
+        <div id="recordsSummaryBar" class="records-summary-bar"></div>
         <div class="display-mode-toggle">
           <span>表格顯示模式：</span>
           <label>
-            <input
-              type="radio"
-              name="displayMode"
-              value="readable"
-              checked
-            />
+            <input type="radio" name="displayMode" value="readable" checked />
             好讀模式
           </label>
           <label>
-            <input
-              type="radio"
-              name="displayMode"
-              value="import"
-            />
+            <input type="radio" name="displayMode" value="import" />
             匯入模式（複製貼到官方 Excel）
           </label>
         </div>
@@ -257,10 +243,10 @@
           </table>
         </div>
       </section>
-    </div>
+
+    </div><!-- /#appSection -->
   </main>
 
   <script src="./Volunteer_Hour_Tool.js"></script>
 </body>
 </html>
-

@@ -1,15 +1,14 @@
 // Volunteer_Hour_Tool.js
 
 // === Google Apps Script Web App URL（志工名單用）===
-const GSHEET_VOLUNTEER_URL =
-  "https://script.google.com/macros/s/AKfycbx2GxuRiXJNRYE3VLsT7Z_cC3l667XPadbr52gdR84jnwn-4M7z_1jbi9UXES7-SHidcA/exec";
+const GSHEET_VOLUNTEER_URL =""
 
 // === 登入設定 ===
-const APP_LOGIN_PASSWORD = "dasan123";
+const APP_LOGIN_PASSWORD = "";
 
 // localStorage keys
-const VOLUNTEER_STORAGE_KEY = "volToolVolunteers";
-const RECORDS_STORAGE_KEY   = "volToolRecords";
+const VOLUNTEER_STORAGE_KEY = "";
+const RECORDS_STORAGE_KEY   = "";
 
 // === DOM ===
 const loginSection          = document.getElementById("loginSection");
@@ -77,7 +76,7 @@ const SERVICE_CONTENTS_BY_ITEM = {
 };
 
 // ============================================================
-// === Toast 通知系統（取代 alert / confirm）===
+// === Toast 通知系統 ===
 // ============================================================
 
 let toastContainer = null;
@@ -100,12 +99,6 @@ function getToastContainer() {
   return toastContainer;
 }
 
-/**
- * 顯示 Toast 提示
- * @param {string} message
- * @param {'success'|'error'|'info'|'warning'} type
- * @param {number} duration ms，0 = 不自動消失
- */
 function showToast(message, type = "info", duration = 3200) {
   const container = getToastContainer();
 
@@ -145,22 +138,11 @@ function showToast(message, type = "info", duration = 3200) {
   `;
 
   const iconEl = document.createElement("span");
-  iconEl.style.cssText = `
-    font-size: 1rem;
-    font-weight: 700;
-    color: ${c.icon};
-    flex-shrink: 0;
-    line-height: 1.4;
-  `;
+  iconEl.style.cssText = `font-size:1rem;font-weight:700;color:${c.icon};flex-shrink:0;line-height:1.4;`;
   iconEl.textContent = iconMap[type] || "ℹ";
 
   const msgEl = document.createElement("span");
-  msgEl.style.cssText = `
-    font-size: 0.88rem;
-    color: ${c.text};
-    line-height: 1.5;
-    flex: 1;
-  `;
+  msgEl.style.cssText = `font-size:0.88rem;color:${c.text};line-height:1.5;flex:1;`;
   msgEl.textContent = message;
 
   toast.appendChild(iconEl);
@@ -179,86 +161,48 @@ function showToast(message, type = "info", duration = 3200) {
   };
 
   toast.addEventListener("click", dismiss);
-
   if (duration > 0) setTimeout(dismiss, duration);
 
   return toast;
 }
 
-/**
- * 畫面內確認對話框（取代 confirm()）
- * @returns {Promise<boolean>}
- */
 function showConfirm(message, confirmLabel = "確定", cancelLabel = "取消") {
   return new Promise((resolve) => {
     const overlay = document.createElement("div");
     overlay.style.cssText = `
-      position: fixed; inset: 0;
-      background: rgba(15,23,42,0.35);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
+      position:fixed;inset:0;background:rgba(15,23,42,0.35);z-index:10000;
+      display:flex;align-items:center;justify-content:center;padding:1rem;
     `;
 
     const dialog = document.createElement("div");
     dialog.style.cssText = `
-      background: #fff;
-      border-radius: 14px;
-      padding: 1.6rem 1.8rem 1.4rem;
-      max-width: 360px;
-      width: 100%;
-      box-shadow: 0 12px 36px rgba(15,23,42,0.18);
-      font-family: inherit;
+      background:#fff;border-radius:14px;padding:1.6rem 1.8rem 1.4rem;
+      max-width:360px;width:100%;box-shadow:0 12px 36px rgba(15,23,42,0.18);font-family:inherit;
     `;
 
     const msg = document.createElement("p");
-    msg.style.cssText = `
-      margin: 0 0 1.3rem;
-      font-size: 0.95rem;
-      color: #0f172a;
-      line-height: 1.6;
-    `;
+    msg.style.cssText = `margin:0 0 1.3rem;font-size:0.95rem;color:#0f172a;line-height:1.6;`;
     msg.textContent = message;
 
     const actions = document.createElement("div");
-    actions.style.cssText = `
-      display: flex;
-      gap: 0.6rem;
-      justify-content: flex-end;
-    `;
+    actions.style.cssText = `display:flex;gap:0.6rem;justify-content:flex-end;`;
 
     const cancelBtn = document.createElement("button");
     cancelBtn.textContent = cancelLabel;
     cancelBtn.style.cssText = `
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      border: 1.5px solid #d1d5db;
-      background: #f9fafb;
-      color: #374151;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
+      padding:0.55rem 1.2rem;border-radius:8px;border:1px solid #D3D1C7;
+      background:#F1EFE8;color:#2C2C2A;font-size:0.88rem;font-weight:500;cursor:pointer;font-family:inherit;
     `;
 
     const confirmBtn = document.createElement("button");
     confirmBtn.textContent = confirmLabel;
     confirmBtn.style.cssText = `
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      border: none;
-      background: #dc2626;
-      color: #fff;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
+      padding:0.55rem 1.2rem;border-radius:8px;border:none;
+      background:#A32D2D;color:#fff;font-size:0.88rem;font-weight:500;cursor:pointer;font-family:inherit;
     `;
 
-    cancelBtn.addEventListener("click", () => { overlay.remove(); resolve(false); });
-    confirmBtn.addEventListener("click", () => { overlay.remove(); resolve(true); });
+    cancelBtn.addEventListener("click",  () => { overlay.remove(); resolve(false); });
+    confirmBtn.addEventListener("click", () => { overlay.remove(); resolve(true);  });
 
     actions.appendChild(cancelBtn);
     actions.appendChild(confirmBtn);
@@ -267,7 +211,6 @@ function showConfirm(message, confirmLabel = "確定", cancelLabel = "取消") {
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
 
-    // 按 Escape 取消
     const onKey = (e) => {
       if (e.key === "Escape") { overlay.remove(); resolve(false); document.removeEventListener("keydown", onKey); }
     };
@@ -381,7 +324,7 @@ async function copyTextToClipboard(text) {
 // ============================================================
 
 function renderSummaryBar() {
-  let summaryBar = document.getElementById("recordsSummaryBar");
+  const summaryBar = document.getElementById("recordsSummaryBar");
   if (!summaryBar) return;
 
   if (records.length === 0) {
@@ -389,16 +332,12 @@ function renderSummaryBar() {
     return;
   }
 
-  let totalMinutes = 0;
-  let totalPeople  = 0;
-  let totalTraffic = 0;
-  let totalMeal    = 0;
-
+  let totalMinutes = 0, totalPeople = 0, totalTraffic = 0, totalMeal = 0;
   records.forEach((r) => {
     totalMinutes += (r.hours || 0) * 60 + (r.minutes || 0);
     totalPeople  += r.peopleCount || 0;
-    totalTraffic += r.trafficFee || 0;
-    totalMeal    += r.mealFee    || 0;
+    totalTraffic += r.trafficFee  || 0;
+    totalMeal    += r.mealFee     || 0;
   });
 
   const h = Math.floor(totalMinutes / 60);
@@ -437,7 +376,7 @@ function updateEndDateConstraints() {
   const monthIndex = start.getMonth();
   const lastDateOfMonth = new Date(year, monthIndex + 1, 0);
   const lastDayStr = formatLocalYYYYMMDD(lastDateOfMonth);
-  const todayStr = getTodayLocalYYYYMMDD();
+  const todayStr   = getTodayLocalYYYYMMDD();
   const maxStr = lastDayStr <= todayStr ? lastDayStr : todayStr;
   endDateInput.min = startValue;
   endDateInput.max = maxStr;
@@ -451,7 +390,7 @@ function updateEndDateConstraints() {
 }
 
 // ============================================================
-// === localStorage：志工名單 ===
+// === localStorage ===
 // ============================================================
 
 function saveVolunteersToStorage() {
@@ -472,10 +411,6 @@ function loadVolunteersFromStorage() {
     });
   } catch (err) { console.error("讀取志工名單失敗", err); }
 }
-
-// ============================================================
-// === localStorage：服務紀錄 ===
-// ============================================================
 
 function saveRecordsToStorage() {
   try { localStorage.setItem(RECORDS_STORAGE_KEY, JSON.stringify(records)); }
@@ -541,14 +476,41 @@ async function loadVolunteersFromGSheet() {
 }
 
 // ============================================================
-// === 登入 ===
+// === 登入 + 密碼眼睛切換
 // ============================================================
 
 function showApp()   { loginSection?.classList.add("hidden");    appSection?.classList.remove("hidden"); }
 function showLogin() { appSection?.classList.add("hidden");      loginSection?.classList.remove("hidden"); }
 
+function initPasswordToggle() {
+  const toggleBtn  = document.getElementById("passwordToggleBtn");
+  const pwdInput   = document.getElementById("loginPassword");
+  const eyeOpen    = toggleBtn?.querySelector(".eye-open");
+  const eyeOff     = toggleBtn?.querySelector(".eye-off");
+
+  if (!toggleBtn || !pwdInput) return;
+
+  toggleBtn.addEventListener("click", function () {
+    const isHidden = pwdInput.type === "password";
+
+    // 切換輸入框型別
+    pwdInput.type = isHidden ? "text" : "password";
+
+    // 切換圖示
+    if (eyeOpen) eyeOpen.style.display = isHidden ? "none"  : "block";
+    if (eyeOff)  eyeOff.style.display  = isHidden ? "block" : "none";
+
+    // 更新 aria-label
+    toggleBtn.setAttribute("aria-label", isHidden ? "隱藏密碼" : "顯示密碼");
+
+    // 保持焦點在輸入框
+    pwdInput.focus();
+  });
+}
+
 function initLogin() {
   if (loginSection && appSection) showLogin();
+  initPasswordToggle();
   if (!loginForm) return;
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -656,7 +618,7 @@ function renderVolunteerList() {
   if (!volunteerListEl) return;
   volunteerListEl.innerHTML = "";
   if (volunteers.length === 0) {
-    volunteerListEl.innerHTML = '<li style="color:#6b7280;font-size:0.88rem;padding:0.4rem 0;">尚未建立志工名單</li>';
+    volunteerListEl.innerHTML = '<li style="color:#888780;font-size:0.88rem;padding:0.4rem 0;">尚未建立志工名單</li>';
     return;
   }
   volunteers.forEach((v, index) => {
@@ -824,13 +786,11 @@ function enterRecordEditMode(index) {
   setText(recordErrorEl, "");
   updatePeopleCountPreview();
   if (recordSubmitBtn) recordSubmitBtn.textContent = "儲存修改";
-
-  // 捲動到表單
   recordForm?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function resetRecordFormPreserveVolunteer() {
-  const keepName = recordVolunteerSelect ? recordVolunteerSelect.value : "";
+  const keepName = recordVolunteerSelect  ? recordVolunteerSelect.value  : "";
   const keepId   = recordVolunteerIdInput ? recordVolunteerIdInput.value : "";
   if (recordForm) recordForm.reset();
   if (recordVolunteerSelect)  recordVolunteerSelect.value  = keepName;
@@ -840,12 +800,12 @@ function resetRecordFormPreserveVolunteer() {
   updateEndDateConstraints();
   if (serviceItemSelect) serviceItemSelect.value = "";
   renderServiceContentOptions("");
-  if (hoursInput)               hoursInput.value               = "";
-  if (minutesInput)             minutesInput.value             = "";
-  if (clientCountInput)         clientCountInput.value         = "0";
-  if (trafficFeeInput)          trafficFeeInput.value          = "0";
-  if (mealFeeInput)             mealFeeInput.value             = "0";
-  if (peopleCountDisplayInput)  peopleCountDisplayInput.value  = "";
+  if (hoursInput)              hoursInput.value              = "";
+  if (minutesInput)            minutesInput.value            = "";
+  if (clientCountInput)        clientCountInput.value        = "0";
+  if (trafficFeeInput)         trafficFeeInput.value         = "0";
+  if (mealFeeInput)            mealFeeInput.value            = "0";
+  if (peopleCountDisplayInput) peopleCountDisplayInput.value = "";
   setText(recordErrorEl, "");
 }
 
@@ -853,8 +813,8 @@ function exitRecordEditMode(preserveVolunteer = true) {
   editingRecordIndex = null;
   if (!preserveVolunteer) {
     if (recordForm) recordForm.reset();
-    if (recordVolunteerSelect)  recordVolunteerSelect.value  = "";
-    if (recordVolunteerIdInput) recordVolunteerIdInput.value = "";
+    if (recordVolunteerSelect)   recordVolunteerSelect.value   = "";
+    if (recordVolunteerIdInput)  recordVolunteerIdInput.value  = "";
     if (peopleCountDisplayInput) peopleCountDisplayInput.value = "";
     renderServiceContentOptions("");
     if (clientCountInput) clientCountInput.value = "0";
@@ -921,7 +881,6 @@ function renderRecordsTable() {
       tr.appendChild(td);
     });
 
-    // 操作欄：編輯 + 刪除
     const actionTd = document.createElement("td");
     actionTd.style.whiteSpace = "nowrap";
     actionTd.innerHTML = `
@@ -929,7 +888,6 @@ function renderRecordsTable() {
       <button type="button" class="btn btn-small btn-danger"    data-action="deleteRecord" data-index="${index}" style="margin-left:0.3rem;">刪除</button>
     `;
     tr.appendChild(actionTd);
-
     recordsTableBody.appendChild(tr);
   });
 
@@ -966,7 +924,7 @@ function initRecordTableActions() {
 }
 
 // ============================================================
-// === 新增/修改 服務紀錄 ===
+// === 新增 / 修改 服務紀錄 ===
 // ============================================================
 
 function initRecordForm() {
@@ -1129,7 +1087,7 @@ function initVolunteersDataFlow() {
 }
 
 function init() {
-  initLogin();
+  initLogin();   // 包含 initPasswordToggle()
   initVolunteerIdInputGuards();
   initVolunteerForm();
   initVolunteerListActions();
@@ -1144,8 +1102,6 @@ function init() {
   initClearRecordsButton();
   initDefaults();
   initVolunteersDataFlow();
-
-  // 讀取存檔的服務紀錄
   loadRecordsFromStorage();
   renderRecordsTable();
 }
