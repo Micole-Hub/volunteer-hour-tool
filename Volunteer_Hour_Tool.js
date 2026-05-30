@@ -4,7 +4,7 @@
 const GSHEET_VOLUNTEER_URL =""
 
 // === 登入設定 ===
-const APP_LOGIN_PASSWORD = "";
+const APP_LOGIN_PASSWORD = "0000";
 
 // localStorage keys
 const VOLUNTEER_STORAGE_KEY = "";
